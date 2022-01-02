@@ -14,9 +14,9 @@ A demonstration website - which can also be used for initial test-driving when y
 
 ## How to get started
 
-<b>Hardware setup:</b> Wire the LCD and sensor modules with +5V and GND. The I2C data wires from LCD modules are connected to pins A4 (SDA) and A5 (SCL). In addition, the sensor data pin is connected to Arduino pin 2, and a 10K resistor is needed as pull-up between this pin and +5V. Two buttons are optionally connected between Arduino pins 6 and 7 to GND.
+<b>Hardware setup:</b> Wire the LCD and sensor modules with +5V and GND. The I2C data wires from LCD module are connected to pins A4 (SDA) and A5 (SCL). In addition, the sensor data pin is connected to Arduino pin 2, and a 10K resistor is needed as pull-up between this pin and +5V. Two buttons are optionally connected between Arduino pins 6 and 7 to GND.
 
-<b>First startup:</b> Before uploading the program to the board using the Arduino IDE, make sure to configure the Ethernet shield MAC address (this has to be unique inside your network) and a static IP fallback address (this has to match your local network settings). Also give the device a unique numerical device ID (line: "int devnum=1"), in order to enable parallel operation of multiple such devices.
+<b>First startup:</b> Before uploading the program to the board using the Arduino IDE, make sure to configure the Ethernet MAC address (this has to be unique inside your network) and a static IP fallback address (this has to match your local network settings). Also give the device a unique numerical device ID (line: "int devnum=1"), in order to enable parallel operation of multiple such devices.
 
 <b>Server side installation:</b> Create a new directory on your php-enabled webserver, e.g. "labmeter", and copy the four files index.php, sensor.php, settings.php and style.css into this directory. Also create two subfolders named "files" and "deleted". The first one will later contain the .csv files with incoming data, and deleted files will be moved to the second folder. Make sure that access permissions are set correctly, so that php can read/write the directories and files as needed. You can then use your measurements archive like in the example provided (https://mackrug.de/labmeter). Remove the "example" notice four your own version and change whatever you need to work differently.
 
