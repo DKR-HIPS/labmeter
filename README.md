@@ -1,7 +1,7 @@
 # Lab-Meter
 <b>Arduino project - measuring lab conditions like temperature and humidity, featuring LC display and webserver upload</b>
 
-This project consists of two parts: an Arduino-based module to measure temperature and humidity and sending these data to a webserver, plus a simple server-side php script to display and archive the measurements. It is similar to the <a href=https://github.com/DKR-HIPS/labmeter/>Lcd-Meter</a> project, but does not use a realtime clock module and is built from a compact adruidno/ethernet combination board.
+This project consists of two parts: an Arduino-based module to measure temperature and humidity and sending these data to a webserver, plus a simple server-side php script to display and archive the measurements. It is similar to the <a href=https://github.com/DKR-HIPS/lcdmeter/>Lcd-Meter</a> project, but does not use a realtime clock module and is built from a compact adruidno/ethernet combination board.
 
 <b>Hardware:</b>
 This project uses an Arduino-compatible board with integrated Ethernet connector (Keyestudio W5500 module, manufacturer id: KS0304), a DHT22 temperature/humidity sensor, and a 16x2 LCD module. The latter is connected by I2C, while the Ethernet module uses SPI and the DHT22 sensor is connected via 1-wire protocol.
