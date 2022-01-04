@@ -1,0 +1,93 @@
+p,b,i,ul,dl,ol,li,div,blockquote,form { 
+        font-size:12pt;
+        font-family:Helvetica,Arial,sans-serif; }
+
+body { padding: 8px 4 4 4; margin: 8px 4 4 4;}
+      
+a:link    { color:#00b0a8; text-decoration:none;}
+a:visited { color:#00b0a8; text-decoration:none;}
+a:active  { color:#0098a8; text-decoration:underline;}
+a:hover	  { color:#0098a8; text-decoration:underline;}           
+ 
+div.values {height:240px;
+			width:100%;
+			overflow:auto;
+			border:1px solid darkgrey; } 
+ 
+        
+table,td,tr,th,thead,tbody { font-size:12pt;
+        font-family:Helvetica,Arial,sans-serif; }
+  
+table.outside { background-color:white;
+				padding:16px;
+				border:1px solid #007a78;
+				border-radius:16px;
+				-moz-border-radius:16px;
+				-webkit-border-radius:16px;
+				box-shadow:4px 4px 2px #e0e0e4; }    
+				  
+table.values {	width:100%;
+				border:none;
+				border-collapse:collapse; }
+				
+table.chart   { background-color:white;
+				padding:2px;
+				border:1px solid #007a78;
+				border-radius:16px;
+				-moz-border-radius:16px;
+				-webkit-border-radius:16px;
+				box-shadow:4px 4px 2px #e0e0e4; } 
+    
+td,th { padding:5px; }
+th { font-weight:bold; 
+     text-align:left; }
+td { word-wrap:break-word; }
+
+big {   font-size:12pt;
+        font-weight:bold;
+        color:#00b0a8;
+        font-family:Helvetica,Arial,sans-serif; }
+
+small { font-size:10pt;
+        font-weight:normal;
+        font-style:normal;
+        color:silver;
+        font-family:Helvetica,Arial,sans-serif; }
+small.c { color:grey; }
+
+var { font-size:9pt;
+     font-family:Helvetica,Arial,sans-serif;
+     font-style:normal; }
+var.c { color:lightblue; }
+var.h { color:lightcoral; }
+        
+h1 {    font-size:20pt;
+        font-weight:bold;
+        color:#007a78;
+        font-family:Calibri,Helvetica,Arial,sans-serif; }
+h2 {    font-size:16pt;
+        font-weight:bold;
+        color:#00b0a8;
+        font-family:Calibri,Helvetica,Arial,sans-serif; }
+h3 {    font-size:13pt; 
+        font-weight:bold;
+        color:#00b0a8;
+        font-family:Calibri,Helvetica,Arial,sans-serif; }
+h4 {    font-size:12pt; 
+        font-weight:bold;
+        color:#00b0a8;
+        font-family:Calibri,Helvetica,Arial,sans-serif; } 
+		
+hr {	border:none; 
+		background-color:#e0e0e4;
+		height:2px; }
+
+.custom-date-style {
+	background-color: red !important;
+}
+
+.input{	
+}
+.input-wide{
+	width: 500px;
+}
