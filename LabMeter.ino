@@ -142,6 +142,7 @@ if(digitalRead(SENDBUTTON) == LOW && sbuttondown == false)    // when sendbutton
    sbuttondown = true;
    displaycounter = 1;
    sendcounter = 1;
+   sensorcounter = 300;
   }
 else if(digitalRead(SENDBUTTON) == HIGH && sbuttondown == true)
   { sbuttondown = false; }
