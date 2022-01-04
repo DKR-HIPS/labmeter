@@ -1,7 +1,7 @@
 
 /********************** 
 
-Lab-Meter Version: 2022-01-04
+Lab-Meter Version: 2022-01-04 v1.0.0
 Arduino for temperature and humidity measurement, display on LCD and send data to web server.
 Parts: DHT22 sensor via 1-wire protocol, 16x2 LC-display via I2C, Arduino with Ethernet shield
 (not using the SD card on the module and - different from Lcd-Meter project - not using a RTC module).
