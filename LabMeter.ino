@@ -156,14 +156,14 @@ if (timecounter < 1)
   if (displaycounter > 5) 
    {
     lcd.setCursor(0,0);
-    lcd.print("Last  "+timecode+"  ");
+    lcd.print("Last  "+timecode+" ");
     lcd.setCursor(0,1);
     lcd.print("sent: "+datecode);
    }
   else 
    {
     lcd.setCursor(0,0);
-    lcd.print("Temp "+String(temperature)+" "+(char)223+"C   ");
+    lcd.print("Temp "+String(temperature)+" "+(char)223+"C  ");
     lcd.setCursor(0,1);
     lcd.print("Humidity "+String(humidity)+" %");
    }
