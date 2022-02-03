@@ -1,7 +1,7 @@
 # Lab-Meter
 <b>Arduino project - measuring lab conditions like temperature and humidity, featuring LC display and webserver upload</b>
 
-This project consists of two parts: an Arduino-based module to measure temperature and humidity and sending these data to a webserver, plus a simple server-side php script to display and archive the measurements. It is similar to the <a href=https://github.com/DKR-HIPS/lcdmeter/>Lcd-Meter</a> project, but does not use a realtime clock module. It is using the built-in watchdog functionality of the Arduino board.
+This project consists of two parts: an Arduino-based module to measure temperature and humidity and sending these data to a webserver, plus a simple server-side php script to display and archive the measurements. It is similar to the <a href=https://github.com/DKR-HIPS/lcdmeter/>Lcd-Meter</a> project, but does not use a realtime clock module. There is an option to use the built-in watchdog functionality of the Arduino board.
 
 <b>Hardware:</b>
 This project uses an Arduino-compatible board with Ethernet shield (e.g. Wiznet 5100 or 5500-type), a DHT22 temperature/humidity sensor, and a 16x2 LCD module. The latter is connected by I2C, while the Ethernet module uses SPI and the DHT22 sensor is connected via 1-wire protocol.
@@ -26,7 +26,7 @@ A demonstration website - which can also be used for initial test-driving when y
 
 ## Known issues
 
-<b>Network connectivity:</b> In this project it is assumed that a stable network configuration is always available, so that the module can reach the webserver anytime using the DHCP-acquired or static IP address. That means, there is no particular network error handling in the code. If the network is not accessible, it may show "please wait" or "sending failed" and after the watchdog timeout is reached it will reboot and attempt to reconnect to the network. If you need constantly displaying messurements under unsafe network conditions, you will have to change the code and add error-handling to achieve this.
+<b>Network connectivity:</b> In this project it is assumed that a stable network configuration is always available, so that the module can reach the webserver anytime using the DHCP-acquired or static IP address. That means, there is no particular network error handling in the code. If you need constantly displaying messurements under unsafe network conditions, you will have to change the code and add error-handling to achieve this. If the network is not accessible, it may show "please wait" or "sending failed" and after the watchdog timeout is reached it will reboot and attempt to reconnect to the network, if watchdog is configured. There is also the AUTORESET option to enforce a regular self-reboot. Note that it has been reported for some ethernet shields that they do not carry out a reset correctly and consequently loose network connection - so test this thoroughly if you activate the watchdog (and auto-reset).
 
 <b>Date/time:</b> Note that this project does not use a realtime clock module. Without a server connection the module cannot know the date and time. The date and time is delivered through the server response which includes a current date/time string. The sensor.php script simply responds with the current server date/time when it has received data. In case of invalid calls to the script it will return "|00:00:00|0000-00-00|" instead. That's also what the module shows if it could not receive the expected reply string from the server.
 
