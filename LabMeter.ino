@@ -1,11 +1,10 @@
-
 /********************** 
 
-Lab-Meter Version: 2022-01-04 v1.0.1
+Lab-Meter Version: 2022-02-03 v1.2.0
 Arduino for temperature and humidity measurement, display on LCD and send data to web server.
 Parts: DHT22 sensor via 1-wire protocol, 16x2 LC-display via I2C, Arduino with Ethernet shield
 (not using the SD card on the module and - different from Lcd-Meter project - not using a RTC module).
-Also using the built-in watchdog functionality (8 seconds timeout).
+Option to use the built-in watchdog functionality (8 seconds timeout).
 
 **********************/
 
@@ -23,6 +22,9 @@ Also using the built-in watchdog functionality (8 seconds timeout).
 #define LIGHTBUTTON 7     // Pin 7 input for button to toggle LCD backlight on/off
 #define SENDBUTTON 6      // Pin 6 input for button to trigger data sending manually
 
+#define SENDSPEED 3       // Interval (in minutes) for sending data to the webserver (integer number, default: 3)
+#define AUTORESET 0       // time (in minutes) after which it will force a reset regularly (0=disable)
+
 int devnum = 1;   // unique number for this device - important to change this if operating multiple devices
 
 char night[] = "21";      // the hour when LCD backlight should automatically switch off (2 digits)
@@ -32,15 +34,16 @@ char server[] = "mackrug.de";     // Name of webserver, where the measurement da
 char serverpath[] = "/labmeter/sensor.php";  // path to PHP script on webserver, which is called via http. Starts with "/"
 char security[] = "a4b3c2d1";     // 8 hex digits security code for this device, used in the HTTP GET request and checked by PHP script on server
 char marker = char('|');          // recognition sign "|" used in the 21-characters date/time response string "|Y-m-d|H:i:s|" from the server
+bool trydhcp = true;         // true = try DHCP first to obtain an IP address
+bool usewatchdog = true;     // true = activate the Watchdog functionality (triggered if program hangs for more than 8 seconds)
 
-int sendspeed = 3 ;               // Interval (in minutes) for sending data to the Webserver (default: 3)
 float tempcorr = 0.0 ;            // This correction value is applied to measured temperature (default: 0.0)
 
 // MAC address from label on the ethernet shield or simply made up (but unique inside network)
 byte mac[] = { 0xA0, 0xB1, 0xC2, 0xD3, 0xEF, 0xF7 };
 
 // fallback IP address to use if DHCP was not successful - must match your local network settings
-IPAddress ip(192, 168, 1, 92);
+IPAddress ip(192, 168, 0, 99);
 
 EthernetClient webclient;
 
@@ -58,7 +61,7 @@ void setup() {
   // Serial.begin(19200);
   
   lcd.init();
-  // switch LCD backlight on (lcd.noBacklight(); switches it off).
+  // switch the LCD backlight on
   lcd.backlight(); 
   lcd.print("Lab-Meter   ["+String(devnum)+"]  ");
   lcd.setCursor(0,1);
@@ -66,15 +69,20 @@ void setup() {
 
   dht.begin(); //DHT22 sensor start
   
-  // Serial.println("Startup: trying DHCP.");
-  if (Ethernet.begin(mac) == false)   // try to get IP-address via DHCP
+  bool dhcpconnect;
+  if ( trydhcp == true )    // try first DHCP according to setup
+     {
+      // Serial.println("Startup: trying DHCP.");
+      dhcpconnect = Ethernet.begin(mac);  
+     } 
+  if (trydhcp == false || dhcpconnect == false)
     {
-     // Serial.println("DHCP failed. Trying static.");
      lcd.setCursor(0,1);
      lcd.print("IP: using static");
+     // Serial.println("DHCP failed. Trying static.");
      delay(1000);
-     Ethernet.begin(mac, ip);     // if not successful, use the specified static fallback address
-    }  
+     Ethernet.begin(mac, ip);     // if not successful, use the specified static address
+    }   
   delay(1000);
   
   // Serial.print("IP = ");
@@ -84,8 +92,11 @@ void setup() {
   lcd.print(Ethernet.localIP());
   lcd.print("         ");
   delay(1000);  
-
-  wdt_enable(WDTO_8S);
+  
+  if ( usewatchdog == true )
+     {
+      wdt_enable(WDTO_8S);
+     } 
 }
 
 float humidity;
@@ -97,6 +108,7 @@ bool displaylight = true;
 bool lightswitch = true;
 bool lbuttondown = false;
 bool sbuttondown = false;
+unsigned long resetcounter = 60L*AUTORESET;
 int timecounter = 1;
 int sensorcounter = 1;
 int displaycounter = 6;
@@ -151,6 +163,7 @@ timecounter--;
 if (timecounter < 1)
 {
   timecounter = 50;    // 50 x 20 ms = ca. 1 second interval
+  resetcounter--;
   wdt_reset();
     
   displaycounter--;
@@ -193,7 +206,7 @@ if (timecounter < 1)
     sendcounter--;
     if (sendcounter < 1)
      {
-      sendcounter = 6 * sendspeed;
+      sendcounter = 6 * SENDSPEED;
       wdt_reset();
       
       lcd.clear();
@@ -273,4 +286,16 @@ if (timecounter < 1)
 
 // the basic loop delay is 20 milliseconds
 delay(20);
+if (resetcounter < 1 && AUTORESET > 0 && usewatchdog == true)
+   {
+    lcd.clear();
+    lcd.print("Auto-reset!");
+    lcd.setCursor(0,1);
+    while(true)
+    {
+     lcd.print(".");
+     delay(1000);
+     //endless loop to force the 8 sec watchdog (happens every AUTORESET minutes)
+     }
+   }
 }
